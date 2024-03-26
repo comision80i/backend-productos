@@ -2,12 +2,17 @@ const express=require('express');
 const cors=require('cors');
 const morgan=require('morgan');
 const path=require('path');
+const databaseConnection=require('./databaseConnection.js');
+const UserRoutes=require('./routes/UserRoutes.js');
+const ProductRoutes=require('./routes/ProductRoutes.js');
 //crear una instancia de express
 const app=express();
 
 //configuramos el acceso a las variables de entorno
 require('dotenv').config();
 
+//conexion a la base de datos
+databaseConnection();
 
 //configura el puerto donde se va a ejecutar nuestro servidor-backend
 app.set('port', process.env.PORT || 9001);
@@ -48,3 +53,6 @@ app.get('/test', async(req, res, next)=>{
         next(error);
     }
 });
+
+UserRoutes('/users', app);
+ProductRoutes('/products', app);
